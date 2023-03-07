@@ -748,8 +748,14 @@ body.is-ie #wrapper {
 				<!-- Footer -->
 					<footer id="footer">
 						<ul class="copyright">
-							<li>&copy; <a href="">一只小流浪</a></li><li>By Cloudflare Cdn <script type="text/javascript">document.write((new Date()).getFullYear());</script> </li>
-							<a href="https://icp.gov.moe/?keyword=20228384" rel="nofollow" target="_blank"><center>萌ICP备20228384号</center></a>
+							<li>
+								&copy; <a href="">一只小流浪</a>
+							</li>
+							<li>By Cloudflare Cdn 
+								<script type="text/javascript">document.write((new Date()).getFullYear());</script>
+							</li>
+							<a href="https://icp.gov.moe/?keyword=20228384" rel="nofollow" target="_blank">
+								<center>萌ICP备20228384号</center></a>
 
 
 
@@ -835,16 +841,19 @@ void main(void) {
         0.0, elrcs.x, elrsn.x,
         0.0, -elrsn.x, elrcs.x
     );
+    
     mat3 roty = mat3(
         elrcs.y, 0.0, -elrsn.y,
         0.0, 1.0, 0.0,
         elrsn.y, 0.0, elrcs.y
     );
+    
     mat3 rotz = mat3(
         elrcs.z, elrsn.z, 0.0,
         -elrsn.z, elrcs.z, 0.0,
         0.0, 0.0, 1.0
     );
+    
     mat3 rotmat = rotx * roty * rotz;
     normal = rotmat[2];
 
@@ -1134,7 +1143,9 @@ void main(void) {
     gl_FragColor = vec4(col.rgb, 1.0);
     gl_FragColor.a = 1.0;
 }
+
 </script>
+	 
   <script>
   // Utilities
 var Vector3 = {};
@@ -1746,6 +1757,7 @@ function renderBackground() {
 
     useEffect(effectLib.sceneBg, null);
     gl.uniform2f(effectLib.sceneBg.program.uniforms.uTimes, timeInfo.elapsed, timeInfo.delta);
+	
     drawEffect(effectLib.sceneBg);
     unuseEffect(effectLib.sceneBg);
 
@@ -1962,6 +1974,10 @@ if(window.zzd>=1){
 
 
   </script>
+	 
+	 
+	 
+	 
  <script>
     const text = document.querySelector('.text');
     const txt  =["北极光之夜。","夜越黑，星星越亮。","答案在风中飘荡。"];
@@ -1970,13 +1986,16 @@ if(window.zzd>=1){
     var xiaBiao= 0;
     var huan = true;
 
-    setInterval(function(){
+    setInterval(function()
+		{
 
-        if(huan){
+        if(huan)
+	{
             text.innerHTML = txt[xiaBiao].slice(0,++index);
             console.log(index);
         }
-        else{
+        else
+	{
             text.innerHTML = txt[xiaBiao].slice(0,index--);
             console.log(index);
         }
