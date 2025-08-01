@@ -1,1 +1,0 @@
-﻿gsInquiry.getAllPunishDataCallback({"err":1,"errMsg":"not login"});

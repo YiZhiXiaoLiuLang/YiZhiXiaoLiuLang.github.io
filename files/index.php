@@ -1,1 +1,0 @@
-bomb1703992302124({"loginUrl":"http:\/\/passport.mama.cn\/?key=www.mama.cn&service=&t=1703992349&sign=4d8594f9ffefba1696ef96154f67948d","registerUrl":"http:\/\/passport.mama.cn\/index\/register\/?key=www.mama.cn&service=&t=1703992349&sign=4d8594f9ffefba1696ef96154f67948d","getCodeUrl":"http:\/\/www.mama.cn","searchWord":"\u9a8c\u5b55\u68d2\u4e00\u6df1\u4e00\u6d45"});
